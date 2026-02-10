@@ -137,7 +137,11 @@ document.querySelectorAll('.save-quantity-link')
             const productId = saveLink.dataset.saveQuantityLink;
             const saveLinkContainer = document.querySelector(`.js-cart-item-container-${productId}`);
             const quantityToSave = Number(document.querySelector(`.quantity-input-for-${productId}`).value);
-            updateQuantity(productId,  quantityToSave);
+            if(quantityToSave < 0 || quantityToSave > 1000){
+                alert('please enter a valid quantity!');
+                updateQuantity(productId, 0);
+            }
+            updateQuantity(productId, quantityToSave);
             saveLinkContainer.classList.remove('is-editing-quantity');
             updateCheckoutItemCount();
         });

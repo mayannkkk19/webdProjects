@@ -42,7 +42,7 @@ cart.forEach((cartItem)=>{
                 </div>
                 <div class="product-quantity">
                 <span>
-                    Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                    Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
                 </span>
                 <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
                     Update
@@ -111,13 +111,9 @@ document.querySelectorAll('.js-delete-link')
     .forEach((link)=>{
         link.addEventListener('click', () => {
             const productId = link.dataset.productId;
-
             removeFromCart(productId);
-
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
-
             container.remove();
-
             updateCheckoutItemCount();
         });
     });
@@ -136,13 +132,14 @@ document.querySelectorAll('.save-quantity-link')
         saveLink.addEventListener('click', () => {
             const productId = saveLink.dataset.saveQuantityLink;
             const saveLinkContainer = document.querySelector(`.js-cart-item-container-${productId}`);
-            const quantityToSave = Number(document.querySelector(`.quantity-input-for-${productId}`).value);
-            if(quantityToSave < 0 || quantityToSave > 1000){
-                alert('please enter a valid quantity!');
-                updateQuantity(productId, 0);
+            let quantityToSave = Number(document.querySelector(`.quantity-input-for-${productId}`).value);
+            if(quantityToSave < 1 || quantityToSave > 1000){
+                alert('Please enter a valid quantity!');
+                quantityToSave = 0;
             }
             updateQuantity(productId, quantityToSave);
             saveLinkContainer.classList.remove('is-editing-quantity');
+            document.querySelector(`.js-quantity-label-${productId}`).innerText = quantityToSave;
             updateCheckoutItemCount();
         });
     });

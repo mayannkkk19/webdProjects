@@ -2,6 +2,13 @@ import {cart, removeFromCart, updateQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 import {countCartItem} from '../data/cart.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+
+const today = dayjs();
+console.log(today);
+
+console.log(today.format('dddd, MMMM D'));
+console.log(today.add(4, 'days').format('dddd, MMMM D'));
 
 function updateCheckoutItemCount() {
     const itemCount = countCartItem();

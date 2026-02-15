@@ -2,13 +2,8 @@ import {cart, removeFromCart, updateQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 import {countCartItem} from '../data/cart.js';
+import {deliveryOptions} from '../data/deliveryOptions.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-
-const today = dayjs();
-console.log(today);
-
-console.log(today.format('dddd, MMMM D'));
-console.log(today.add(4, 'days').format('dddd, MMMM D'));
 
 function updateCheckoutItemCount() {
     const itemCount = countCartItem();
@@ -21,14 +16,13 @@ let cartSummaryHTML = '';
 
 cart.forEach((cartItem)=>{
     const productId = cartItem.productId;
+
     let matchingProduct;
     products.forEach((product)=>{
         if(product.id === productId){
             matchingProduct = product;
         }
     });
-
-    console.log(matchingProduct);
 
     const html = `
         <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -63,54 +57,44 @@ cart.forEach((cartItem)=>{
             </div>
 
             <div class="delivery-options">
-                <div class="delivery-options-title">
-                Choose a delivery option:
-                </div>
-                <div class="delivery-option">
-                <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-for-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date">
-                    Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                    FREE Shipping
-                    </div>
-                </div>
-                </div>
-                <div class="delivery-option">
-                <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-for-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date">
-                    Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                    $4.99 - Shipping
-                    </div>
-                </div>
-                </div>
-                <div class="delivery-option">
-                <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-for-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date">
-                    Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                    $9.99 - Shipping
-                    </div>
-                </div>
-                </div>
+                ${deliveryOptionsHTML(matchingProduct)}
             </div>
             </div>
         </div>
     `
     cartSummaryHTML += html;
 });
+
+function deliveryOptionsHTML (matchingProduct) {
+    let deliveryHTML = '';
+    deliveryOptions.forEach((deliveryOption) => {
+        const today = dayjs();
+        const deliveryDate = today.add(deliveryOption.deliveryDays, 'days').format('MMMM, dddd D');
+        const html = `
+            <div class="delivery-option">
+                <input type="radio"
+                    class="delivery-option-input"
+                    name="delivery-option-for-${matchingProduct.id}">
+                <div>
+                    <div class="delivery-option-date">
+                        ${deliveryDate}
+                    </div>
+                    <div class="delivery-option-price">
+                        ${
+                            deliveryOption.priceCents === 0 
+                            ? 'FREE '
+                            : formatCurrency(deliveryOption)
+                        }Shipping
+                    </div>
+                </div>
+            </div>
+        `
+
+        deliveryHTML += html;
+    });
+
+    return deliveryHTML;
+}
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 

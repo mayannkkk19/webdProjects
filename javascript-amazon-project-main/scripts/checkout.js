@@ -26,15 +26,17 @@ function renderCheckoutItem(){
             }
         });
 
-        let deliveryoption;
+        const deliveryOptionId = cartItem.deliveryOptionId;
+        let deliveryOption;
         deliveryOptions.forEach((option) => {
             if(option.id === deliveryOptionId){
-                deliveryoption = option;
+                deliveryOption = option;
             }
         });
 
         const today = dayjs();
         const deliveryDate = today.add(deliveryOption.deliveryDays, 'days').format('MMMM, dddd D');
+
         const html = `
             <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
                     <div class="delivery-date">
@@ -88,8 +90,6 @@ function deliveryOptionsHTML (matchingProduct, cartItem) {
         const today = dayjs();
         const deliveryDate = today.add(deliveryOption.deliveryDays, 'days').format('MMMM, dddd D');
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
-
-        const deliveryOptionId = cartItem.deliveryOptionId;
 
         const html = `
             <div class="delivery-option js-delivery-option"

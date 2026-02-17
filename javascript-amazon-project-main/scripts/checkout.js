@@ -7,14 +7,7 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 
 
-function updateCheckoutItemCount() {
-    const itemCount = countCartItem();
-    document.querySelector('.js-cart-items').innerHTML = `${itemCount} items`;
-}
-
-updateCheckoutItemCount();
-
-
+function renderOrderSummary() {
     let cartSummaryHTML = '';
     cart.forEach((cartItem)=>{
         const productId = cartItem.productId;
@@ -82,6 +75,15 @@ updateCheckoutItemCount();
     });
 
     document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
+
+
+
+function updateCheckoutItemCount() {
+    const itemCount = countCartItem();
+    document.querySelector('.js-cart-items').innerHTML = `${itemCount} items`;
+}
+
+updateCheckoutItemCount();
 
 
 function deliveryOptionsHTML (matchingProduct, cartItem) {
@@ -161,5 +163,9 @@ document.querySelectorAll('.js-delivery-option')
         element.addEventListener('click', () => {
             const {productId, deliveryOptionId} = element.dataset;
             updateDeliveryOption(productId, deliveryOptionId);
+            renderOrderSummary();
         });
     });
+}
+
+renderOrderSummary();

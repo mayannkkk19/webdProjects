@@ -68,3 +68,15 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
   matchingItem.deliveryOptionId = deliveryOptionId;
   saveToStorage();
 }
+
+export function calculateCartPriceCents() {
+  let totalPrice = 0;
+  
+  let matchingProductId;
+
+  cart.forEach((cartItem) => {
+    matchingProductId = cartItem.productId;
+  });
+
+  return totalPrice;
+}

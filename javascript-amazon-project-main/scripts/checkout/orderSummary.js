@@ -3,6 +3,7 @@ import {products} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import {deliveryOptions} from '../../data/deliveryOptions.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import {renderPaymentSummary}  from '../checkout/paymentSummary.js';
 
 export function renderOrderSummary() {
     let cartSummaryHTML = '';
@@ -43,7 +44,7 @@ export function renderOrderSummary() {
                     </div>
                     <div class="product-price">
                     $${formatCurrency(matchingProduct)}
-                    </div>
+                    </div>  
                     <div class="product-quantity">
                     <span>
                         Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
@@ -125,6 +126,8 @@ document.querySelectorAll('.js-delete-link')
             removeFromCart(productId);
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
             container.remove();
+            renderPaymentSummary();
+            renderOrderSummary();
             updateCheckoutItemCount();
         });
     });
@@ -152,6 +155,7 @@ document.querySelectorAll('.save-quantity-link')
             saveLinkContainer.classList.remove('is-editing-quantity');
             document.querySelector(`.js-quantity-label-${productId}`).innerText = quantityToSave;
             updateCheckoutItemCount();
+            renderPaymentSummary();
         });
     });
 

@@ -1,3 +1,4 @@
+import {products} from '../data/products.js'
 export let cart = JSON.parse(localStorage.getItem('cart')) || [
     {
         productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -76,6 +77,12 @@ export function calculateCartPriceCents() {
 
   cart.forEach((cartItem) => {
     matchingProductId = cartItem.productId;
+
+    products.forEach((product) =>  {
+      if(product.id === matchingProductId){
+        totalPrice += (product.priceCents) * (cartItem.quantity);
+      }
+    });
   });
 
   return totalPrice;

@@ -1,5 +1,5 @@
 import {countCartItem, calculateCartPriceCents, cart} from '../../data/cart.js';
-
+import {getDeliveryOption} from '../../data/deliveryOptions.js';
 export function renderPaymentSummary () {
     const html = `
           <div class="payment-summary-title">

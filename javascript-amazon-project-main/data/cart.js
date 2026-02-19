@@ -1,4 +1,5 @@
-import {products} from '../data/products.js'
+import {products} from '../data/products.js';
+import {getDeliveryOption} from '../data/deliveryOptions.js';
 export let cart = JSON.parse(localStorage.getItem('cart')) || [
     {
         productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -72,18 +73,23 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
 
 export function calculateCartPriceCents() {
   let totalPrice = 0;
+  let shippingPrice = 0;
   
   let matchingProductId;
 
   cart.forEach((cartItem) => {
     matchingProductId = cartItem.productId;
+    shippingPrice += matchingProductId.
 
     products.forEach((product) =>  {
       if(product.id === matchingProductId){
         totalPrice += (product.priceCents) * (cartItem.quantity);
       }
     });
-  });
 
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
+
+    shippingPrice += deliveryOption.priceCents;
+  });
   return totalPrice;
 }

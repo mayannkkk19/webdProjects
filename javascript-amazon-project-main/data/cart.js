@@ -1,12 +1,14 @@
+import {products} from '../data/products.js';
+
 export let cart = JSON.parse(localStorage.getItem('cart')) || [
-    {
-        productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-        quantity: 2,
-        deliveryOptionId: '1'
-    },{
-        productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-        quantity: 1,
-        deliveryOptionId: '2'
+  {
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 2,
+      deliveryOptionId: '1'
+  },{
+      productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+      quantity: 1,
+      deliveryOptionId: '2'
 }];
 
 function saveToStorage() {
@@ -71,23 +73,18 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
 
 export function calculateCartPriceCents() {
   let totalPrice = 0;
-  let shippingPrice = 0;
   
   let matchingProductId;
 
   cart.forEach((cartItem) => {
     matchingProductId = cartItem.productId;
-    shippingPrice += matchingProductId.
 
     products.forEach((product) =>  {
       if(product.id === matchingProductId){
         totalPrice += (product.priceCents) * (cartItem.quantity);
       }
     });
-
-    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-
-    shippingPrice += deliveryOption.priceCents;
   });
+
   return totalPrice;
 }

@@ -15,17 +15,17 @@ const cart = {
     },
 
     saveToStorage() {
-        lStorage.setItem('cart-oop', JSON.stringify(this.cartItems));
+        localStorage.setItem('cart-oop', JSON.stringify(this.cartItems));
     },
 
     addToCart(productId){
-        const selectedQuantity = document.querySelector(`.js-product-quantity-selector-${productId}`);
         let matchingItem;
-        this.CartItems.forEach((cartItem) => {
+        this.cartItems.forEach((cartItem) => {
             if (cartItem.productId === productId) {
-            matchingItem = cartItem;
+                matchingItem = cartItem;
             }
         });
+        const selectedQuantity = document.querySelector(`.js-product-quantity-selector-${productId}`);
         if (matchingItem) {
             matchingItem.quantity += Number(selectedQuantity.value);
         } else {
@@ -44,7 +44,7 @@ const cart = {
 
     removeFromCart(productId) {
         const newCart = [];
-        cart.forEach((cartItem) => {
+        this.cartItems.forEach((cartItem) => {
             if(cartItem.productId !== productId){
             newCart.push(cartItem);
             }
@@ -75,3 +75,5 @@ const cart = {
 };
 
 cart.loadFromStorage();
+
+console.log(cart);

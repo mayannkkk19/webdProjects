@@ -1,4 +1,5 @@
 import {products} from '../data/products.js';
+import {deliveryOptions} from '../data/deliveryOptions.js';
 
 export let cart = JSON.parse(localStorage.getItem('cart')) || [
   {
@@ -87,4 +88,19 @@ export function calculateCartPriceCents() {
   });
 
   return totalPrice;
+}
+
+export function calculateShippingPrice() {
+  let matchingDeliveryOption;
+  let shippingPrice = 0;
+  cart.forEach((cartItem) => {
+    const deliveryOptionId = cartItem.deliveryOptionId;
+    deliveryOptions.forEach((deliveryOption) => {
+      if(deliveryOptionId == deliveryOption.id){
+        shippingPrice += deliveryOption.priceCents;
+      }
+    }); 
+  });
+
+  return shippingPrice;
 }

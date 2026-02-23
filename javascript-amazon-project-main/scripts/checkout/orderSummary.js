@@ -38,7 +38,7 @@ export function renderOrderSummary() {
                     ${matchingProduct.name}
                     </div>
                     <div class="product-price">
-                    $${formatCurrency(matchingProduct)}
+                    $${formatCurrency(matchingProduct.priceCents)}
                     </div>  
                     <div class="product-quantity">
                     <span>
@@ -102,7 +102,7 @@ function deliveryOptionsHTML (matchingProduct, cartItem) {
                         ${
                             deliveryOption.priceCents === 0 
                             ? 'FREE '
-                            : `$${formatCurrency(deliveryOption)} - ` 
+                            : `$${formatCurrency(deliveryOption.priceCents)} - ` 
                         }Shipping
                     </div>
                 </div>
@@ -160,6 +160,7 @@ document.querySelectorAll('.save-quantity-link')
                 const {productId, deliveryOptionId} = element.dataset;
                 updateDeliveryOption(productId, deliveryOptionId);
                 renderOrderSummary();
+                renderPaymentSummary();
         });
     });
 }

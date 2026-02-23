@@ -1,10 +1,13 @@
 import {countCartItem, calculateCartPriceCents, calculateShippingPrice} from '../../data/cart.js';
+import { formatCurrency } from '../utils/money.js';
 
 export function renderPaymentSummary () {
-    const totalItemPrice = (calculateCartPriceCents()/100).toFixed(2); 
-    const totalShippingPrice = (calculateShippingPrice()/100).toFixed(2);
-    const totalBeforeTax =0 ;
-    const estimatedTax = ((totalBeforeTax/10).toFixed(2));
+    const totalItemPrice = formatCurrency(calculateCartPriceCents());
+    const totalShippingPrice = formatCurrency(calculateShippingPrice());
+    const totalBeforeTax = formatCurrency(calculateCartPriceCents() + calculateShippingPrice());
+    const estimatedTax = formatCurrency((calculateCartPriceCents() + calculateShippingPrice())/10);
+
+    const orderTotal = formatCurrency((calculateCartPriceCents() + calculateShippingPrice()) + ((calculateCartPriceCents() + calculateShippingPrice())/10));
 
     const html = `
           <div class="payment-summary-title">
@@ -33,7 +36,7 @@ export function renderPaymentSummary () {
 
           <div class="payment-summary-row total-row">
             <div>Order total:</div>
-            <div class="payment-summary-money">$52.51</div>
+            <div class="payment-summary-money">$${orderTotal}</div>
           </div>
 
           <button class="place-order-button button-primary">

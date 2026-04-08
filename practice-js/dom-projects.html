@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style>
+
+		.subscribe-button {
+			background-color : black;
+			color : white;
+
+			padding-top : 12px;
+			padding-bottom : 12px;
+			padding-right : 15px;
+			padding-left : 15px;
+
+			font-family : Arial, Helvetica, sans-serif;
+			font-weight : 700;
+
+			border-radius : 24px;
+			border : none;
+		}
+
+		.is-subscribed {
+			background-color : rgb(213, 213, 213);
+			color : black;
+		}
+	</style>
+</head>
+<body>
+	<p>Youtube subscribe button</p>
+	<button onclick="pressButton()" class="js-subscribe-button subscribe-button">Subscribe</button>
+	<p class="js-show-subs"></p>
+	<script>
+		let counter = 0;
+		function pressButton () {
+			const real = document.querySelector('.js-subscribe-button');
+			
+			if(real.innerText === 'Subscribe'){
+				real.innerHTML = 'Subscribed';
+				real.classList.add
+					('is-subscribed');
+			}else {
+				real.innerText = 'Subscribe';
+				real.classList.remove('is-subscribed');
+			}
+		}
+	</script>
+</body>
+</html>

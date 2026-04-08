@@ -1,0 +1,54 @@
+body {
+    font-family : Arial, Helvetica, sans-serif;
+    background-color: rgb(27, 27, 27);
+    color : white;
+}
+
+.heading {
+    font-size : 30px;
+    font-weight : 700;
+    
+    margin-bottom : 40px;
+}
+
+.result {
+    font-size : 24px;
+    font-weight : 700;
+}
+
+.moves {
+    margin-bottom : 50px;
+}
+
+.button-play{
+    width : 120px;
+    height : 120px;
+
+    border-radius : 60px;
+    border-width : 3px;
+    border-style : solid;
+
+    border-color: white;
+
+    background-color: transparent;
+
+    margin-right : 10px;
+}
+
+.button-img {
+    width : 52px;
+}
+
+.move-img {
+    width : 48px;
+}
+
+.reset-button,.auto-play-button {
+    background-color : white;
+
+    border : none;
+
+    padding : 10px 20px 10px 20px;
+        
+    font-size : 14px;
+}

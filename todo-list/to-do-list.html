@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo List</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Card */
+    .todo-container {
+      background: #ffffff;
+      width: 420px;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .todo-container > p {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    /* Inputs row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .todo-input,
+    .date-selector {
+      padding: 10px 12px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      width: 100%;
+    }
+
+    .todo-input:focus,
+    .date-selector:focus {
+      border-color: #4f46e5;
+    }
+
+    .js-add-button {
+      padding: 10px 16px;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .js-add-button:hover {
+      background: #4338ca;
+    }
+
+    /* Todo list */
+    .todo-display p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9fafb;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .todo-display p button {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .todo-display p button:hover {
+      background: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="todo-container">
+    <p>Todo List</p>
+
+    <div class="input-row">
+      <input type="text" placeholder="Todo name" class="js-todo-input todo-input">
+      <input type="date" class="js-date-selector date-selector">
+      <button class="js-add-button">Add</button>
+    </div>
+
+    <div class="js-todo-display todo-display"></div>
+  </div>
+
+  <script src="to-do-list.js"></script>
+</body>
+</html>

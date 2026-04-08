@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="rps-advance.css" />
+  </head>
+
+  <body>
+    <p class="heading">Rock Paper Scissors</p>
+
+    <button class="js-button-play button-play" onclick="gameResult('Rock')">
+      <img src="Rock-emoji.png" class="button-img" />
+    </button>
+    <button
+      class="js-button-play button-play paper-button"
+      onclick="gameResult('Paper')"
+    >
+      <img src="Paper-emoji.png" class="button-img" />
+    </button>
+    <button class="js-button-play button-play" onclick="gameResult('Scissors')">
+      <img src="Scissors-emoji.png" class="button-img" />
+    </button>
+
+    <p class="js-result result"></p>
+    <p class="js-moves moves"></p>
+    <p class="js-score"></p>
+
+    <button
+      class="js-reset-button reset-button"
+      onclick="
+      score.wins = 0;
+      score.ties = 0;
+      score.loses = 0;
+
+		const displayScores = document.querySelector('.js-score');
+		
+		displayScores.innerHTML = `Wins: ${score.wins}, Loses: ${score.loses}, Ties: ${score.ties}`;
+	"
+    >
+      Reset Score
+    </button>
+    <button class="auto-play-button" onclick="autoPlay()">Auto Play</button>
+
+    <script src="rps-advance.js"></script>
+  </body>
+</html>

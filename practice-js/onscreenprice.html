@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .error {
+        color :rgb(255, 48, 48);
+        font-family : Arial, Helvetica, sans-serif;
+    }
+</style>
+<body>
+    <p>Amazon Shipping Calculator</p>
+    <p>Orders under $40 = +$10 shipping</p>
+    <p>Orders over $40 = FREE shipping</p>
+
+    <input type="text" class="js-input-price" onkeydown="
+        handleCostKeydown(event);
+    ">
+
+    <button class="js-calculate-button" onclick="
+        shippingPrice();
+    " >Calculate</button>
+    <p class="js-calculated-price"></p>
+
+    <script>
+        function shippingPrice () {
+            let price = (document.querySelector('.js-input-price').value);
+            
+            const display = document.querySelector('.js-calculated-price');
+
+            if(price !== ''){
+
+                price = (Number(price));
+
+                if(price >= 0) {
+                    if(display.classList.contains('error')){
+                        display.classList.remove('error');
+                    }
+                    if(price >= 40){
+                        display.innerHTML = `<p>$${price}</p>`; 
+                     }
+                    else if(price < 40){
+                        display.innerHTML = `<p>$${price+10}</p>`;
+                    }
+                }else {
+                    display.classList.add('error');
+                    display.innerHTML = 'Error: const cannot be less than $0';
+                }
+
+            }else {
+                 if(display.classList.contains('error')){
+                        display.classList.remove('error');
+                        console.log('contains');
+                    }
+                display.innerHTML = 'Please enter cost of your cart!'
+
+            }
+            
+        }
+
+        function handleCostKeydown(event) {
+            if(event.key === 'Enter'){
+                shippingPrice();
+            }
+        }
+        
+    </script>
+</body>
+</html>

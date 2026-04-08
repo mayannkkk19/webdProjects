@@ -1,104 +1,106 @@
-import {cart, addToCart} from "../data/cart.js"
-import {products} from "../data/products.js"
+import {cart, addToCart, countCartItem} from '../data/cart.js';
+import {products, loadProducts } from '../data/products.js';
+import {formatCurrency} from './utils/money.js';
 
-let displayHTML = '';
+loadProducts(renderProductsGrid);
 
-for (let i = 0; i < products.length; i++){
-  const html = `
-    <div class="product-container">
-      <div class="product-image-container">
-        <img class="product-image"
-          src=${products[i].image}>
-      </div>
+function renderProductsGrid() {
+  let productsHTML = "";
 
-      <div class="product-name limit-text-to-2-lines">
-        ${products[i].name}
-      </div>
+  products.forEach((product) => {
+    const html = `
+          <div class="product-container">
+            <div class="product-image-container">
+              <img class="product-image"
+                src=${product.image}>
+            </div>
 
-      <div class="product-rating-container">
-        <img class="product-rating-stars"
-          src="images/ratings/rating-${products[i].rating.stars * 10}.png">
-        <div class="product-rating-count link-primary">
-          ${products[i].rating.count}
-        </div>
-      </div>
+            <div class="product-name limit-text-to-2-lines">
+              ${product.name}
+            </div>
 
-      <div class="product-price">
-        $${((products[i].priceCents) / 100).toFixed(2)}
-      </div>
+            <div class="product-rating-container">
+              <img class="product-rating-stars"
+                src="images/ratings/rating-${product.rating.stars * 10}.png">
+              <div class="product-rating-count link-primary">
+                ${product.rating.count}
+              </div>
+            </div>
 
-      <div class="product-quantity-container">
-        <select class="js-quantity-selector-${products[i].id}">
-          <option selected value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
-      </div>
+            <div class="product-price">
+              $${formatCurrency(product.priceCents)}
+            </div>
 
-      <div class="product-spacer"></div>
+            <div class="product-quantity-container">
+              <select class="js-product-quantity-selector-${product.id}">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
 
-      <div class="added-to-cart js-${products[i].id}-added-to-cart">
-        <img src="images/icons/checkmark.png">
-        Added
-      </div>
+            <div class="product-spacer"></div>
 
-      <button class="add-to-cart-button button-primary" data-product-name="${products[i].name}" data-id="${products[i].id}" data-product-image="${products[i].image}" data-product-price="${products[i].priceCents}" data-product-quantity="1" data-product-id ="${products[i].id}">
-        Add to Cart
-      </button>
-    </div>
-  `;
-  displayHTML += html;
-}
+            <div class="added-to-cart js-added-to-cart-${product.id}">
+              <img src="images/icons/checkmark.png">
+              Added
+            </div>
 
-document.querySelector('.products-grid').innerHTML = displayHTML;
-
-function updateCartQuantity () {
-  let cartQuantity = 0;
-
-  cart.forEach((cartItem)=>{
-    cartQuantity += cartItem.productQuantity;
+            <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
+              Add to Cart
+            </button>
+          </div>
+      `;
+    productsHTML += html;
   });
 
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  updateCartQuantity();
 
-let iconTimeout;
-let prevId;
+  const addedMessageTimeouts = {};
 
-function showAddedIcon (productId) {
-  prevId = productId;
-  if(productId === prevId){
-    clearTimeout(iconTimeout);
+
+  function updateCartQuantity(){
+    const cartQuantity = countCartItem();
+
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
   }
-  const addedToCart = document.querySelector(`.js-${productId}-added-to-cart`);
-      
-  addedToCart.classList.add(`added-to-cart-pressedfor`);
 
-  iconTimeout = setTimeout(()=>{
-    addedToCart.classList.remove('added-to-cart-pressedfor');
-  }, 2000);
+  function addedToCartIconShow(productId){
+    const addedToCartShow = document.querySelector(`.js-added-to-cart-${productId}`);
+        
+    const previousTimeout = addedMessageTimeouts[productId];
+
+    if(previousTimeout){
+      clearTimeout(previousTimeout);
+    }
+
+    addedToCartShow.classList.add('js-added-to-cart');
+
+    const timeoutId = setTimeout(()=>{
+      addedToCartShow.classList.remove('js-added-to-cart');
+    }, 2000);
+
+    addedMessageTimeouts[productId] = timeoutId;     
+  }
+
+  document.querySelectorAll(".js-add-to-cart")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const productId = button.dataset.productId;
+
+        addToCart(productId);
+        updateCartQuantity();
+        addedToCartIconShow(productId);
+      });
+  });
 }
- 
-document.querySelectorAll('.add-to-cart-button')
-  .forEach((button) => {
-    button.addEventListener('click', ()=>{
-      const {productId} = button.dataset;
-      const productQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-      
-
-      addToCart(productId, productQuantity);
-
-      updateCartQuantity();
-
-      showAddedIcon(productId);
-    });
-});
-
 

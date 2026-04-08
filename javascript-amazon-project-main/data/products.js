@@ -1,3 +1,20 @@
+export let products = [];
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response);
+    fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}
+
+loadProducts();
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -656,40 +673,6 @@ export const products = [
       "apparel",
       "mens"
     ]
-  },
-  {
-    id: "id1",
-    image: "images/products/backpack.jpg",
-    name: "Mens Backpack 9 Liters",
-    rating: {
-      stars: 4,
-      count: 100 
-    },
-    priceCents: 9000,
-    keywords: [
-      "backpack",
-      "travel",
-      "storage",
-      "mens",
-      "womens",
-      "college",
-      "school"
-    ]
-  },
-  {
-    id: "id2",
-    image: "images/products/umbrella.jpg",
-    name: "Unisex Umbrella - pack of 2",
-    rating: {
-      stars: 4.5,
-      count: 19
-    },
-    priceCents: 100,
-    keywords: [
-      "rain",
-      "travel",
-      "monsoon",
-      "umbrella"
-    ]
   }
 ];
+*/

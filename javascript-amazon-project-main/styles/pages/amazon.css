@@ -144,15 +144,17 @@
   opacity: 0;
 }
 
-
-.added-to-cart-pressedfor {
+.js-added-to-cart {
   color: rgb(6, 125, 98);
   font-size: 16px;
 
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  /*made this whole new class , when button pressed this class name will be added to that div of specific id*/
+
+  /* At first, the "Added to cart" message will
+     be invisible. Use JavaScript to change the
+     opacity and make it visible. */
   opacity: 1;
 }
 
